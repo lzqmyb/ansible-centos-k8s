@@ -1,0 +1,16 @@
+[etcd]
+127.0.0.1 ETCD_NAME=node1 INTERNAL_IP="127.0.0.1"
+
+[all:vars]
+
+#默认二进制文件目录
+bin_dir=/root/local/bin
+
+#证书目录
+ca_dir=/etc/kubernetes/ssl
+
+#etcd 集群列表
+ETCD_IPS="node1=https://127.0.0.1:2380"
+# ,node2=https://192.168.61.12:2380,node3=https://192.168.61.13:2380
+
+
