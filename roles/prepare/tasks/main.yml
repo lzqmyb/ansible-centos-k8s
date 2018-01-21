@@ -1,0 +1,15 @@
+# 这个初始化只有deploy节点需要启动
+
+- name: 下载rsync分发工具
+  yum: name=rsync state=latest
+  when: ansible_distribution == "CentOS" and ansible_distribution_major_version == "7"
+
+- name: 创建ssl文件夹
+  file: name=/root/kubernetes/server/bin/ssl  state=directory
+
+- name: 下发ssl配置文件
+  copy: src={{ base_dir }}/roles/init/files/{{ item }} dest=//root/kubernetes/server/bin/ssl
+
+- name: 下载rsync分发工具
+  yum: name=rsync state=latest
+  when: TYPE == 'deploy' and ansible_distribution == "CentOS" and ansible_distribution_major_version == "7"

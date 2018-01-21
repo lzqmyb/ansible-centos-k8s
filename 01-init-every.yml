@@ -9,6 +9,8 @@
 #   - initca
 
 - hosts:
-  - deploy 
+  - masters
+  - nodes
+  - etcd
   roles:
-  - prepare 
+  - init

@@ -1,16 +1,4 @@
-# 删除默认安装
-- name: 删除centos默认安装
-  when: ansible_distribution == "CentOS"
-  yum: name={{ item }} state=absent
-  with_items:
-  - firewalld
-  - firewalld-filesystem
-  - python-firewall
 
-- name: 关闭 selinux
-  shell: "setenforce 0 && echo SELINUX=disabled > /etc/selinux/config"
-  when: ansible_distribution == "CentOS"
-  ignore_errors: true
 
 # service 分发
 
@@ -36,11 +24,6 @@
   when: TYPE == 'etcd'
 
 # 软件分发
-
-
-- name: 下载rsync分发工具
-  yum: name=rsync state=latest
-  when: TYPE == 'deploy' and ansible_distribution == "CentOS" and ansible_distribution_major_version == "7"
 
 # MASTER 被注释掉的时候不会启动
 - name: 分发master文件
@@ -72,9 +55,9 @@
 - name: 执行生成证书脚本
   shell: "/root/kubernetes/server/bin/ssl/produce-config.sh"
 
-- name: 下发证书至所有节点
-  shell: "for node in {};do
-    ssh ${node} "mkdir -p /etc/kubernetes/ssl/ "
-  done
-  "
+# - name: 下发证书至所有节点
+#   shell: "for node in {};do
+#     ssh ${node} "mkdir -p /etc/kubernetes/ssl/ "
+#   done
+#   "
 
