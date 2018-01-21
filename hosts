@@ -3,12 +3,15 @@
 
 
 [masters]
-#172.22.179.63 HOST=master IP=172.22.179.63
-47.90.201.162 HOST=master IP=172.22.179.63
+172.22.179.63 HOST=master IP=172.22.179.63
+#47.90.201.162 HOST=master IP=172.22.179.63
  
 
 [nodes]
 172.22.179.63 HOST=node1 IP=172.22.179.63
+
+[deploy]
+172.22.179.63
 
 [etcd:vars]
 TYPE=etcd
