@@ -1,0 +1,80 @@
+# 删除默认安装
+- name: 删除centos默认安装
+  when: ansible_distribution == "CentOS"
+  yum: name={{ item }} state=absent
+  with_items:
+  - firewalld
+  - firewalld-filesystem
+  - python-firewall
+
+- name: 关闭 selinux
+  shell: "setenforce 0 && echo SELINUX=disabled > /etc/selinux/config"
+  when: ansible_distribution == "CentOS"
+  ignore_errors: true
+
+# service 分发
+
+- name: 准备node所需service文件
+  template: src=service/{{item}} dest=/lib/systemd/system/{{item}}
+  with_items:
+    - kubelet.service
+    - flanneld.service
+  when: TYPE == 'node'
+
+- name: 准备master所需service文件
+  template: src=service/{{item}} dest=/lib/systemd/system/{{item}}
+  with_items:
+    - kube-apiserver.service
+    - kube-controller-manager.service
+    - scheduler.service
+  when: TYPE == 'master'
+
+- name: 准备etcd所需service文件
+  template: src=service/{{item}} dest=/lib/systemd/system/{{item}}
+  with_items:
+    - etcd.service
+  when: TYPE == 'etcd'
+
+# 软件分发
+
+
+- name: 下载rsync分发工具
+  yum: name=rsync state=latest
+  when: TYPE == 'deploy' and ansible_distribution == "CentOS" and ansible_distribution_major_version == "7"
+
+# MASTER 被注释掉的时候不会启动
+- name: 分发master文件
+  shell: "for master in '{'{{ MASTER }}'}';do
+  rsync  -avzP   /root/kubernetes/server/bin/master/ ${master}:/usr/local/bin/
+  done"
+  when: TYPE == 'deploy' and MASTER is defined
+
+# NODES 被注释掉的时候不会启动
+- name: 分发node文件
+  shell: "for node in {{ NODES }};do
+  rsync  -avzP   /root/kubernetes/server/bin/node/ ${node}:/usr/local/bin/
+  done"
+  when: TYPE == 'deploy' and NODES is defined
+
+# NODES 被注释掉的时候不会启动
+- name: 分发etcd文件
+  shell: "for etcd in {{ ETCDS }};do
+    rsync  -avzP   /root/kubernetes/server/bin/etcd/ ${etcd}:/usr/local/bin/
+  done"
+  when: TYPE == 'deploy' and ETCDS is defined
+
+- name: 生成高级审计配置
+  copy: src=audit-policy.yaml dest=/root/kubernetes/server/bin/ssl/audit-policy.yaml
+  
+- name: 复制生成证书脚本
+  template: src=produce-config.sh dest=/root/kubernetes/server/bin/ssl/produce-config.sh mode=0755
+
+- name: 执行生成证书脚本
+  shell: "/root/kubernetes/server/bin/ssl/produce-config.sh"
+
+- name: 下发证书至所有节点
+  shell: "for node in {};do
+    ssh ${node} "mkdir -p /etc/kubernetes/ssl/ "
+  done
+  "
+

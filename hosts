@@ -1,16 +1,53 @@
 [etcd]
-127.0.0.1 ETCD_NAME=node1 INTERNAL_IP="127.0.0.1"
+172.22.179.63 HOST=etcd1 IP=172.22.179.63
 
+
+[masters]
+#172.22.179.63 HOST=master IP=172.22.179.63
+47.90.201.162 HOST=master IP=172.22.179.63
+ 
+
+[nodes]
+172.22.179.63 HOST=node1 IP=172.22.179.63
+
+[etcd:vars]
+TYPE=etcd
+[masters:vars]
+TYPE=master
+[nodes:vars]
+TYPE=node
 [all:vars]
 
 #默认二进制文件目录
 bin_dir=/root/local/bin
 
+#工作目录创建
+base_dir=/root/deploy
+
 #证书目录
 ca_dir=/etc/kubernetes/ssl
 
+#master 
+MASTER="172.22.179.63"
+MASTER_HOST="master"
+
+#nodes
+NODES="172.22.179.63"
+
 #etcd 集群列表
-ETCD_IPS="node1=https://127.0.0.1:2380"
+
+# 分发软件使用
+ETCDS="172.22.179.63"
+# 主节点
+ETCD_IP="172.22.179.63"
+# 外部访问
+ETCD_ENDPOINTS="https://172.22.179.63:2379"
+#ETCD_ENDPOINTS="https://172.22.179.63:2379,https://192.168.0.39:2379,https://192.168.0.40:2379"
+# 集群通信
+ETCD_INITIAL="etcd01=https://172.22.179.63:2380"
+# etcd01=https://{{ IP}}:2380,etcd02=https://192.168.0.39:2380,etcd03=https://192.168.0.40:2380
 # ,node2=https://192.168.61.12:2380,node3=https://192.168.61.13:2380
 
 
+# BOOTSTRAP_TOKEN=$(head -c 16 /dev/urandom | od -An -t x | tr -d ' ')
+BOOTSTRAP_TOKEN=e62bfd82f9d96d21f30106ba8dd8379f
