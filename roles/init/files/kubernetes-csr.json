@@ -2,7 +2,8 @@
     "CN": "kubernetes",
     "hosts": [
     "127.0.0.1",
-    "172.22.179.63",
+    "10.141.59.24",
+    "123.206.64.163",
     "172.21.0.1",
     "kubernetes",
     "kubernetes.default",
@@ -17,8 +18,8 @@
     "names": [
         {
             "C": "CN",
-            "ST": "Shenzhen",
-            "L": "Shenzhen",
+            "ST": "BeiJing",
+            "L": "BeiJing",
             "O": "k8s",
             "OU": "System"
         }

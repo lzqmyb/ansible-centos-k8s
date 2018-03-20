@@ -12,7 +12,7 @@
 
 # 删除默认安装
 - name: 删除centos默认安装
-  when: ansible_distribution == "CentOS"
+  # when: ansible_distribution == "CentOS"
   yum: name={{ item }} state=absent
   with_items:
   - firewalld
@@ -21,5 +21,5 @@
 
 - name: 关闭 selinux
   shell: "setenforce 0 && echo SELINUX=disabled > /etc/selinux/config"
-  when: ansible_distribution == "CentOS"
+  # when: ansible_distribution == "CentOS"
   ignore_errors: true

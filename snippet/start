@@ -1,0 +1,11 @@
+for item in {kube-apiserver,kube-controller-manager,kube-scheduler}; do
+  systemctl enable ${item}
+  systemctl start ${item}
+  systemctl status ${item}
+done
+
+
+
+kubectl run nginx2 --replicas=2 --labels="run=load-balancer-example" --image=nginx:1.9  --port=80
+kubectl expose deployment nginx2 --type=NodePort --name=example-service2
+deployment "nginx" created
