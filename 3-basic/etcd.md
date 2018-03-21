@@ -154,4 +154,4 @@ etcdctl \
 --ca-file=${ca_dir}/ca.pem \
 --cert-file=${ca_dir}/kubernetes.pem \
 --key-file=${ca_dir}/kubernetes-key.pem \
---endpoints=https://123.206.64.163:2379 cluster-health
+--endpoints=https://10.1.0.2:2379 cluster-health

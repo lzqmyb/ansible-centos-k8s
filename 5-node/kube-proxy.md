@@ -66,7 +66,7 @@ KUBE_MASTER="--master=${KUBE_APISERVER}"
 # default config should be adequate
 
 # Add your own!
-KUBE_PROXY_ARGS="--bind-address=10.141.59.24 --hostname-override=10.141.59.24 --kubeconfig=/etc/kubernetes/ssln/kube-proxy.kubeconfig --cluster-cidr=172.20.0.0/16"
+KUBE_PROXY_ARGS="--bind-address=10.1.0.2 --hostname-override=10.1.0.2 --kubeconfig=/etc/kubernetes/ssl/kube-proxy.kubeconfig --cluster-cidr=172.20.0.0/16"
 
 
 ```

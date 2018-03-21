@@ -4,14 +4,13 @@
 # /lib/systemd/system/docker.service.d/override.conf
 ```
 [Service]
+EnvironmentFile=-/run/flannel/docker
 ExecStart=
 ExecStart=/usr/bin/dockerd \
 --exec-opt native.cgroupdriver=systemd  \
 --storage-driver=overlay \
 --data-root=/dcos/docker \
---bip=172.20.10.1/24 \
---ip-masq=true \
---mtu=1450
+$DOCKER_NETWORK_OPTIONS
 ```
 
 # 配置介绍

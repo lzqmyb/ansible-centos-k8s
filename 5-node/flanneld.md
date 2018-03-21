@@ -2,14 +2,16 @@
 [flannel 官方配置参考](https://github.com/coreos/flannel/blob/master/Documentation/configuration.md)
 # etcd中存储对应网络配置
 - set 的key 应该与fanneld.service配置中的-etcd-prefix字段相对应
+
+- set ${FLANNEL_ETCD_PREFIX}/config '{"Network":"'${CLUSTER_CIDR}'", "SubnetLen": 24, "Backend": {"Type": "vxlan"}}'
 ```
 etcdctl --cert-file=${ca_dir}/etcd.pem \
   --key-file=${ca_dir}/etcd-key.pem \
   --ca-file=${ca_dir}/ca.pem \
   --endpoints=https://10.1.0.2:2379 \
-
 set /kubernetes/network/config '{"Network":"172.20.0.0/16", "SubnetLen": 24, "Backend": {"Type": "vxlan"}}'
 ```
+
 
 # flanneld.service
 - 需要注意-iface的设置正常是eth0, vagrant 需要填对应ip

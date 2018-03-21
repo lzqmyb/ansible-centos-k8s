@@ -1,5 +1,0 @@
-export ca_dir=/etc/kubernetes/ssl
-export BOOTSTRAP_TOKEN=eeb2dd8304396339ec3cf155164db865
-export KUBE_APISERVER=https://192.168.1.1:6443
-DNS_SERVER_IP=172.21.0.2
-DNS_DOMAIN=cluster.local

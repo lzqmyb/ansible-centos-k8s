@@ -68,10 +68,8 @@ kubectl config use-context default --kubeconfig=kube-proxy.kubeconfig
  kubectl config use-context kubernetes-admin@kubernetes \
     --kubeconfig=./kubeconfig
 
-
-
-
 # 生成集群管理员admin kubeconfig配置文件供kubectl调用
+# 如果不指定--kubeconfig则会默认常见到./kube/config
 # admin set-cluster
  kubectl config set-cluster kubernetes \
     --certificate-authority=${ca_dir}/ca.pem \
